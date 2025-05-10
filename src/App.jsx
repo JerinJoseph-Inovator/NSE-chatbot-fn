@@ -2,7 +2,8 @@ import { useState } from 'react';
 import Header from './components/Header';
 import ChatWindow from './components/ChatWindow';
 import MessageInput from './components/MessageInput';
-import botGif from './assets/Hello.gif'; // Adjust path if needed
+import UserInfoModal from './components/UserInfoModal';
+import botGif from './assets/Hello.gif';
 
 function App() {
   const [messages, setMessages] = useState([
@@ -14,6 +15,18 @@ function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [pendingAction, setPendingAction] = useState(null);
   const [awaitingUserInput, setAwaitingUserInput] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+
+  const handleUserInfoSubmit = (info) => {
+    setUserInfo(info);
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: 'bot',
+        text: `👋 Hello ${info.name}, how can I assist you with the markets today?`,
+      },
+    ]);
+  };
 
   const handleSend = async (text) => {
     setMessages((prev) => [...prev, { sender: 'user', text }]);
@@ -44,12 +57,12 @@ function App() {
       const reply = formatNSEReply(data.reply);
       setMessages((prev) => [...prev, { sender: 'bot', text: reply }]);
     } catch (err) {
-      console.error('📈 Error fetching gainers:', err);
+      console.error('📈 Error fetching data:', err);
       setMessages((prev) => [
         ...prev,
         {
           sender: 'bot',
-          text: '⚠️ Failed to fetch top gainers. Please try again later.',
+          text: '⚠️ Failed to process your request. Please try again later.',
         },
       ]);
     } finally {
@@ -97,29 +110,39 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <Header />
-      <div className="flex flex-1">
-        {/* Bot image section */}
-        <div className="w-1/5 bg-white flex items-center justify-center p-4">
-          <img src={botGif} alt="Bot waving hello" className="max-w-full max-h-full object-contain" />
-        </div>
+    <>
+      {!userInfo && <UserInfoModal onSubmit={handleUserInfoSubmit} />}
 
-        {/* Chat section */}
-        <div className="w-4/5 flex flex-col bg-[#f4f6f9]">
-          <ChatWindow
-            messages={messages}
-            isTyping={isTyping}
-            awaitingUserInput={awaitingUserInput}
-          />
-          <MessageInput
-            onSend={handleSend}
-            onNewsClick={handleNewsClick}
-            onIntent={handleIntent}
-          />
+      <div className="flex flex-col h-screen font-sans">
+        <Header />
+        <div className="flex flex-1 bg-gradient-to-br from-white to-[#f4f6f9]">
+          {/* Bot image section */}
+          <div className="w-1/5 flex items-center justify-center p-4 bg-white shadow-inner">
+            <img
+              src={botGif}
+              alt="Bot waving hello"
+              className="max-w-full max-h-full object-contain rounded-2xl shadow-lg"
+            />
+          </div>
+
+          {/* Chat section */}
+          <div className="w-4/5 flex flex-col p-4 bg-white rounded-l-2xl shadow-xl">
+            <div className="flex-1 overflow-auto rounded-2xl bg-gradient-to-r from-white to-[#f4f6f9] p-4 shadow-inner">
+              <ChatWindow
+                messages={messages}
+                isTyping={isTyping}
+                awaitingUserInput={awaitingUserInput}
+              />
+            </div>
+            <MessageInput
+              onSend={handleSend}
+              onNewsClick={handleNewsClick}
+              onIntent={handleIntent}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

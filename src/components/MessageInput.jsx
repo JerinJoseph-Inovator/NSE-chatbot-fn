@@ -1,53 +1,84 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { SendHorizonal, Newspaper, BarChart, Info, TrendingUp, LineChart } from 'lucide-react';
 
-export default function MessageInput({ onSend, onNewsClick, onIntent }) {
+const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
   const [input, setInput] = useState('');
 
-  const send = () => {
-    if (input.trim()) {
-      onSend(input.trim());
+  const handleSendClick = () => {
+    if (input.trim() !== '') {
+      onSend(input);
       setInput('');
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') handleSendClick();
+  };
+
   return (
-    <div className="flex flex-col gap-2 p-4 border-t bg-white">
-      <div className="flex items-center gap-2">
-        <input
-          className="flex-1 rounded-full px-4 py-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3a2d7d] transition-all"
-          placeholder="Ask me about stocks..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && send()}
-        />
-        <button
-          onClick={send}
-          className="bg-[#3a2d7d] text-white px-4 py-2 rounded-full hover:bg-[#2d2364] transition-all"
-        >
-          Send
-        </button>
+    <div className="p-4 border-t bg-gradient-to-r from-white to-[#f4f6f9] shadow-md">
+      {/* Intent buttons */}
+      <div className="flex flex-wrap gap-2 mb-3">
         <button
           onClick={onNewsClick}
-          className="bg-[#efb31f] text-white px-4 py-2 rounded-full hover:bg-[#d4a019] transition-all"
+          className="flex items-center gap-1 px-3 py-1 bg-[#3a2d7d] text-white rounded-xl shadow hover:opacity-90 transition"
         >
-          📰 NSE News
+          <Newspaper size={16} />
+          NSE News
+        </button>
+
+        <button
+          onClick={() => onIntent('fundamentals')}
+          className="flex items-center gap-1 px-3 py-1 bg-[#efb31f] text-black rounded-xl shadow hover:opacity-90 transition"
+        >
+          <Info size={16} />
+          Fundamentals
+        </button>
+
+        <button
+          onClick={() => onIntent('chart')}
+          className="flex items-center gap-1 px-3 py-1 bg-[#f26c23] text-white rounded-xl shadow hover:opacity-90 transition"
+        >
+          <LineChart size={16} />
+          Chart
+        </button>
+
+        <button
+          onClick={() => onIntent('gainers')}
+          className="flex items-center gap-1 px-3 py-1 bg-[#3a2d7d] text-white rounded-xl shadow hover:opacity-90 transition"
+        >
+          <TrendingUp size={16} />
+          Top Gainers
+        </button>
+
+        <button
+          onClick={() => onIntent('ipo')}
+          className="flex items-center gap-1 px-3 py-1 bg-[#efb31f] text-black rounded-xl shadow hover:opacity-90 transition"
+        >
+          <BarChart size={16} />
+          IPOs & Earnings
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-4">
-        {['fundamentals', 'chart', 'gainers', 'ipo'].map((type) => (
-          <button
-            key={type}
-            onClick={() => onIntent(type)}
-            className="bg-[#f3f3f3] text-[#3a2d7d] px-3 py-1 rounded-full text-sm hover:bg-[#e1e1e1] transition-all"
-          >
-            {type === 'fundamentals' && '📊 Get Fundamentals'}
-            {type === 'chart' && '📉 View Chart'}
-            {type === 'gainers' && '🔼 Top Gainers'}
-            {type === 'ipo' && '🗓️ IPOs & Earnings'}
-          </button>
-        ))}
+      {/* Input and send */}
+      <div className="flex items-center gap-2">
+        <input
+          type="text"
+          className="flex-1 px-4 py-3 rounded-2xl border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#3a2d7d]"
+          placeholder="Type your message..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyPress}
+        />
+        <button
+          onClick={handleSendClick}
+          className="p-3 rounded-full bg-gradient-to-br from-[#3a2d7d] to-[#5a4d9c] text-white shadow-lg hover:scale-105 transition"
+        >
+          <SendHorizonal size={18} />
+        </button>
       </div>
     </div>
   );
-}
+};
+
+export default MessageInput;
