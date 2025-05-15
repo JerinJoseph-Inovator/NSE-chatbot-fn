@@ -5,6 +5,9 @@ import MessageInput from './components/MessageInput';
 import UserInfoModal from './components/UserInfoModal';
 import botGif from './assets/Hello.gif';
 
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+
 function App() {
   const [messages, setMessages] = useState([
     {
@@ -44,7 +47,7 @@ function App() {
   const processBotCommand = async (text) => {
     setIsTyping(true);
     try {
-      const response = await fetch('http://localhost:8000/chat', {
+      const response = await fetch(`${BACKEND_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text }),
@@ -107,7 +110,8 @@ function App() {
     const lower = text.toLowerCase();
     if (lower.includes('stock price')) return `💹 ${text}`;
     if (lower.includes('news')) return `📰 ${text}`;
-    if (lower.includes('ipo') || lower.includes('earnings')) return `📅 ${text}`;
+    if (lower.includes('ipo') || lower.includes('earnings'))
+      return `📅 ${text}`;
     return `📈 ${text}`;
   };
 
