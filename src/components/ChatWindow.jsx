@@ -14,7 +14,7 @@ const renderMessageWithLinks = (text) => {
           href={part}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 underline hover:text-blue-800"
+          className="text-blue-600 underline break-words hover:text-blue-800"
         >
           {part}
         </a>
@@ -33,17 +33,19 @@ const ChatWindow = ({ messages, isTyping, awaitingUserInput }) => {
 
   return (
     <div className="flex-1 overflow-hidden">
-      <div className="h-full max-h-[calc(100vh-200px)] overflow-y-auto p-4 space-y-4">
+      <div className="h-full max-h-[calc(100vh-200px)] overflow-y-auto px-2 sm:px-4 py-4 space-y-3 sm:space-y-4">
         {messages.map((msg, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+            className={`flex ${
+              msg.sender === 'user' ? 'justify-end' : 'justify-start'
+            }`}
           >
             <div
-              className={`max-w-xs md:max-w-md px-4 py-3 rounded-2xl shadow-md text-sm leading-relaxed break-words whitespace-pre-wrap
+              className={`max-w-[85%] sm:max-w-xs md:max-w-md px-4 py-3 rounded-2xl shadow-md text-sm leading-relaxed break-words whitespace-pre-wrap
                 ${
                   msg.sender === 'user'
                     ? 'bg-[#3a2d7d] text-white rounded-tr-sm'
@@ -57,7 +59,7 @@ const ChatWindow = ({ messages, isTyping, awaitingUserInput }) => {
 
         {isTyping && (
           <div className="flex justify-start">
-            <div className="bg-[#e0e0e0] text-black px-4 py-2 rounded-2xl shadow w-fit animate-pulse text-sm">
+            <div className="bg-gray-300 text-black px-4 py-2 rounded-2xl shadow w-fit animate-pulse text-sm">
               Typing...
             </div>
           </div>

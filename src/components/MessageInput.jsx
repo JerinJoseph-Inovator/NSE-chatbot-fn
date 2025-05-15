@@ -21,7 +21,7 @@ const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
       <div className="flex flex-wrap gap-2 mb-3">
         <button
           onClick={onNewsClick}
-          className="flex items-center gap-1 px-3 py-1 bg-[#3a2d7d] text-white rounded-xl shadow hover:opacity-90 transition"
+          className="flex items-center gap-1 px-3 py-1 bg-[#3a2d7d] text-white rounded-xl shadow hover:opacity-90 transition text-sm"
         >
           <Newspaper size={16} />
           NSE News
@@ -29,7 +29,7 @@ const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
 
         <button
           onClick={() => onIntent('fundamentals')}
-          className="flex items-center gap-1 px-3 py-1 bg-[#efb31f] text-black rounded-xl shadow hover:opacity-90 transition"
+          className="flex items-center gap-1 px-3 py-1 bg-[#efb31f] text-black rounded-xl shadow hover:opacity-90 transition text-sm"
         >
           <Info size={16} />
           Fundamentals
@@ -37,7 +37,7 @@ const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
 
         <button
           onClick={() => onIntent('chart')}
-          className="flex items-center gap-1 px-3 py-1 bg-[#f26c23] text-white rounded-xl shadow hover:opacity-90 transition"
+          className="flex items-center gap-1 px-3 py-1 bg-[#f26c23] text-white rounded-xl shadow hover:opacity-90 transition text-sm"
         >
           <LineChart size={16} />
           Chart
@@ -45,7 +45,7 @@ const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
 
         <button
           onClick={() => onIntent('gainers')}
-          className="flex items-center gap-1 px-3 py-1 bg-[#3a2d7d] text-white rounded-xl shadow hover:opacity-90 transition"
+          className="flex items-center gap-1 px-3 py-1 bg-[#3a2d7d] text-white rounded-xl shadow hover:opacity-90 transition text-sm"
         >
           <TrendingUp size={16} />
           Top Gainers
@@ -53,7 +53,7 @@ const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
 
         <button
           onClick={() => onIntent('ipo')}
-          className="flex items-center gap-1 px-3 py-1 bg-[#efb31f] text-black rounded-xl shadow hover:opacity-90 transition"
+          className="flex items-center gap-1 px-3 py-1 bg-[#efb31f] text-black rounded-xl shadow hover:opacity-90 transition text-sm"
         >
           <BarChart size={16} />
           IPOs & Earnings
@@ -64,7 +64,7 @@ const MessageInput = ({ onSend, onNewsClick, onIntent }) => {
       <div className="flex items-center gap-2">
         <input
           type="text"
-          className="flex-1 px-4 py-3 rounded-2xl border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#3a2d7d]"
+          className="flex-1 px-4 py-3 rounded-2xl border border-gray-300 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#3a2d7d] text-sm"
           placeholder="Type your message..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
