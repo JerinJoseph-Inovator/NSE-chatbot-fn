@@ -1,11 +1,33 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
+// Function to detect URLs and convert to clickable links
+const renderMessageWithLinks = (text) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+
+  return parts.map((part, index) => {
+    if (urlRegex.test(part)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-600 underline hover:text-blue-800"
+        >
+          {part}
+        </a>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+};
+
 const ChatWindow = ({ messages, isTyping, awaitingUserInput }) => {
   const chatEndRef = useRef(null);
 
   useEffect(() => {
-    // Scroll to bottom on new message
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isTyping, awaitingUserInput]);
 
@@ -28,7 +50,7 @@ const ChatWindow = ({ messages, isTyping, awaitingUserInput }) => {
                     : 'bg-gradient-to-br from-[#efb31f] to-[#f9e8a4] text-black rounded-tl-sm'
                 }`}
             >
-              {msg.text}
+              {msg.sender === 'bot' ? renderMessageWithLinks(msg.text) : msg.text}
             </div>
           </motion.div>
         ))}

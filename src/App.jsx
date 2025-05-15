@@ -104,8 +104,10 @@ function App() {
   };
 
   const formatNSEReply = (text) => {
-    if (text.toLowerCase().includes('stock price')) return `💹 ${text}`;
-    if (text.toLowerCase().includes('news')) return `📰 ${text}`;
+    const lower = text.toLowerCase();
+    if (lower.includes('stock price')) return `💹 ${text}`;
+    if (lower.includes('news')) return `📰 ${text}`;
+    if (lower.includes('ipo') || lower.includes('earnings')) return `📅 ${text}`;
     return `📈 ${text}`;
   };
 
