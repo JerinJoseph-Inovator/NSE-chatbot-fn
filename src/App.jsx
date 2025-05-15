@@ -5,8 +5,9 @@ import MessageInput from './components/MessageInput';
 import UserInfoModal from './components/UserInfoModal';
 import botGif from './assets/Hello.gif';
 
+// Use process.env for Create React App
 const BACKEND_URL =
-  import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+  process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000';
 
 function App() {
   const [messages, setMessages] = useState([
